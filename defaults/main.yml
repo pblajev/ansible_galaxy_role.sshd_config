@@ -1,0 +1,11 @@
+---
+sshd_settings_default:
+  - setting: PasswordAuthentication
+    value: "no"
+  - setting: PermitRootLogin
+    value: "no"
+
+sshd_settings: []
+
+settings_list: "{{ [sshd_settings_default, sshd_settings]|
+                community.general.lists_mergeby('setting') }}"

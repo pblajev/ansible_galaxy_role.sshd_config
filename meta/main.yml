@@ -1,0 +1,9 @@
+galaxy_info:
+  author: Peter Blajev
+  description: SSHD configuration
+  company: "Home"
+
+  license: license (BSD)
+  min_ansible_version: 4.5
+  galaxy_tags: []
+dependencies: []
