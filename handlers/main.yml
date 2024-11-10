@@ -1,0 +1,7 @@
+---
+- name: restart sshd
+#  debug: msg="Restarting SSHD"
+  service:
+    name: sshd
+    state: restarted
+    enabled: true

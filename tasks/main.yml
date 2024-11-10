@@ -1,0 +1,32 @@
+---
+- name: stat /etc/ssh/sshd_config.d
+  stat:
+    path: /etc/ssh/sshd_config.d
+  register: sshd_dir
+
+- set_fact: config_file="/etc/ssh/sshd_config"
+  when: not sshd_dir.stat.exists
+
+- block:
+  - set_fact: config_file="/etc/ssh/sshd_config.d/homeco-sshd.conf"
+    when: sshd_dir.stat.exists and sshd_dir.stat.isdir
+
+  - name: Create HomeCo sshd file if it doesn't exists
+    copy:
+      content: ""
+      dest: "{{ config_file }}"
+      force: no
+      owner: root
+      group: root
+      mode: 0644
+  when: sshd_dir.stat.exists and sshd_dir.stat.isdir
+
+- name: Edit {{ config_file }}
+  lineinfile:
+    dest: "{{ config_file }}"
+    regexp: "^{{ item.setting }}"
+    line: "{{ item.setting }} {{ item.value }}"
+    state: present
+    validate: 'sshd -T -f %s'
+  with_items: "{{ settings_list }}"
+  notify: restart sshd
