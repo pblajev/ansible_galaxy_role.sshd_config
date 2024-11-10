@@ -1,4 +1,4 @@
-Role ansible_galaxy_role.ssh_config
+Role ansible_galaxy_role.sshd_config
 =========
 
 The role will look for directory /etc/ssh/sshd_config.d/.<br>
